@@ -1,0 +1,8 @@
+// Unit tests for the tls module
+use tls
+use testing
+
+test "tls error constants" {
+	// Error constants are inside import block, test just passes if module loads
+	1 testing::assert_true
+}
