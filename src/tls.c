@@ -23,7 +23,7 @@ static void set_error_msg(qd_context* ctx, const char* msg) {
 
 // Stack signature: ( socket:i hostname:s -- tls_conn:ptr )
 // Fallible function - pushes error code
-qd_exec_result usr_tls_connect(qd_context* ctx) {
+int usr_tls_connect(qd_context* ctx) {
 	// Pop hostname
 	qd_stack_element_t hostname_elem;
 	qd_stack_error err = qd_stack_pop(ctx->st, &hostname_elem);
@@ -67,18 +67,18 @@ qd_exec_result usr_tls_connect(qd_context* ctx) {
 		ctx->error_code = (int)tls_err;
 		set_error_msg(ctx, tls_platform_error_string(tls_err));
 		qd_push_i(ctx, (int64_t)tls_err);
-		return (qd_exec_result){(int)tls_err};
+		return (int){(int)tls_err};
 	}
 
 	// On success: push result, then Ok
 	qd_push_p(ctx, conn);
 	qd_push_i(ctx, TLS_OK);
-	return (qd_exec_result){0};
+	return 0;
 }
 
 // Stack signature: ( socket:i hostname:s cert_path:s key_path:s -- tls_conn:ptr )
 // Fallible function - pushes error code
-qd_exec_result usr_tls_connect_mtls(qd_context* ctx) {
+int usr_tls_connect_mtls(qd_context* ctx) {
 	// Pop key_path
 	qd_stack_element_t key_elem;
 	qd_stack_error err = qd_stack_pop(ctx->st, &key_elem);
@@ -165,18 +165,18 @@ qd_exec_result usr_tls_connect_mtls(qd_context* ctx) {
 		ctx->error_code = (int)tls_err;
 		set_error_msg(ctx, tls_platform_error_string(tls_err));
 		qd_push_i(ctx, (int64_t)tls_err);
-		return (qd_exec_result){(int)tls_err};
+		return (int){(int)tls_err};
 	}
 
 	// On success: push result, then Ok
 	qd_push_p(ctx, conn);
 	qd_push_i(ctx, TLS_OK);
-	return (qd_exec_result){0};
+	return 0;
 }
 
 // Stack signature: ( socket:i cert_path:s key_path:s -- tls_conn:ptr )
 // Fallible function - pushes error code
-qd_exec_result usr_tls_accept(qd_context* ctx) {
+int usr_tls_accept(qd_context* ctx) {
 	// Pop key_path
 	qd_stack_element_t key_elem;
 	qd_stack_error err = qd_stack_pop(ctx->st, &key_elem);
@@ -240,18 +240,18 @@ qd_exec_result usr_tls_accept(qd_context* ctx) {
 		ctx->error_code = (int)tls_err;
 		set_error_msg(ctx, tls_platform_error_string(tls_err));
 		qd_push_i(ctx, (int64_t)tls_err);
-		return (qd_exec_result){(int)tls_err};
+		return (int){(int)tls_err};
 	}
 
 	// On success: push result, then Ok
 	qd_push_p(ctx, conn);
 	qd_push_i(ctx, TLS_OK);
-	return (qd_exec_result){0};
+	return 0;
 }
 
 // Stack signature: ( tls_conn:ptr data:s -- bytes_sent:i )
 // Fallible function - pushes error code
-qd_exec_result usr_tls_send(qd_context* ctx) {
+int usr_tls_send(qd_context* ctx) {
 	// Pop data
 	qd_stack_element_t data_elem;
 	qd_stack_error err = qd_stack_pop(ctx->st, &data_elem);
@@ -296,18 +296,18 @@ qd_exec_result usr_tls_send(qd_context* ctx) {
 		ctx->error_code = (int)tls_err;
 		set_error_msg(ctx, tls_platform_error_string(tls_err));
 		qd_push_i(ctx, (int64_t)tls_err);
-		return (qd_exec_result){(int)tls_err};
+		return (int){(int)tls_err};
 	}
 
 	// On success: push result, then Ok
 	qd_push_i(ctx, (int64_t)bytes_sent);
 	qd_push_i(ctx, TLS_OK);
-	return (qd_exec_result){0};
+	return 0;
 }
 
 // Stack signature: ( tls_conn:ptr max_bytes:i -- data:s bytes_read:i )
 // Fallible function - pushes error code
-qd_exec_result usr_tls_receive(qd_context* ctx) {
+int usr_tls_receive(qd_context* ctx) {
 	// Pop max_bytes
 	qd_stack_element_t max_elem;
 	qd_stack_error err = qd_stack_pop(ctx->st, &max_elem);
@@ -362,7 +362,7 @@ qd_exec_result usr_tls_receive(qd_context* ctx) {
 		ctx->error_code = (int)tls_err;
 		set_error_msg(ctx, tls_platform_error_string(tls_err));
 		qd_push_i(ctx, (int64_t)tls_err);
-		return (qd_exec_result){(int)tls_err};
+		return (int){(int)tls_err};
 	}
 
 	// On success: push results (data, bytes_read), then Ok
@@ -371,11 +371,11 @@ qd_exec_result usr_tls_receive(qd_context* ctx) {
 	qd_push_i(ctx, TLS_OK);
 
 	free(buffer);
-	return (qd_exec_result){0};
+	return 0;
 }
 
 // Stack signature: ( tls_conn:ptr -- )
-qd_exec_result usr_tls_close(qd_context* ctx) {
+int usr_tls_close(qd_context* ctx) {
 	// Pop connection
 	qd_stack_element_t conn_elem;
 	qd_stack_error err = qd_stack_pop(ctx->st, &conn_elem);
@@ -394,5 +394,5 @@ qd_exec_result usr_tls_close(qd_context* ctx) {
 		tls_platform_close(conn);
 	}
 
-	return (qd_exec_result){0};
+	return 0;
 }

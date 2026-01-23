@@ -23,7 +23,7 @@ extern "C" {
  *
  * Performs TLS handshake as client. Uses hostname for SNI and verification.
  */
-qd_exec_result usr_tls_connect(qd_context* ctx);
+int usr_tls_connect(qd_context* ctx);
 
 /**
  * @brief Wrap a socket with TLS using client certificate (mTLS)
@@ -34,7 +34,7 @@ qd_exec_result usr_tls_connect(qd_context* ctx);
  * Performs TLS handshake as client with client certificate authentication.
  * Uses hostname for SNI and verification.
  */
-qd_exec_result usr_tls_connect_mtls(qd_context* ctx);
+int usr_tls_connect_mtls(qd_context* ctx);
 
 /**
  * @brief Wrap a socket with TLS (server mode)
@@ -44,7 +44,7 @@ qd_exec_result usr_tls_connect_mtls(qd_context* ctx);
  *
  * Performs TLS handshake as server using provided certificate and key.
  */
-qd_exec_result usr_tls_accept(qd_context* ctx);
+int usr_tls_accept(qd_context* ctx);
 
 /**
  * @brief Send data over TLS connection
@@ -54,7 +54,7 @@ qd_exec_result usr_tls_accept(qd_context* ctx);
  *
  * Encrypts and sends data over the TLS connection.
  */
-qd_exec_result usr_tls_send(qd_context* ctx);
+int usr_tls_send(qd_context* ctx);
 
 /**
  * @brief Receive data from TLS connection
@@ -64,7 +64,7 @@ qd_exec_result usr_tls_send(qd_context* ctx);
  *
  * Receives and decrypts data from the TLS connection.
  */
-qd_exec_result usr_tls_receive(qd_context* ctx);
+int usr_tls_receive(qd_context* ctx);
 
 /**
  * @brief Close TLS connection
@@ -74,7 +74,7 @@ qd_exec_result usr_tls_receive(qd_context* ctx);
  *
  * Performs TLS shutdown and frees resources. Does NOT close underlying socket.
  */
-qd_exec_result usr_tls_close(qd_context* ctx);
+int usr_tls_close(qd_context* ctx);
 
 #ifdef __cplusplus
 }
